@@ -1,0 +1,13 @@
+# Site settings
+title: Мои настройки для jEdit
+email: egor.abramovich@gmail.com
+description: > 
+  My custom settings for jEdit
+baseurl: "" 
+url: "http://plotnik.github.io"
+
+# Build settings
+markdown: kramdown
+
+highlighter: rouge
+encoding: utf-8
