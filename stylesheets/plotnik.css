@@ -1,0 +1,10 @@
+.epigraph {
+    float: right;
+	font-style: italic;
+	padding: 30px;
+}  
+body {
+    background-color: #f8f4d0;
+	font-family: "Adobe Caslon Pro", Georgia, "Times New Roman", serif;
+	font-size: large;
+}
