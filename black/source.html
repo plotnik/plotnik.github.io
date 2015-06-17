@@ -1,8 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Топологическая игра блэк</title>
+
+<link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../stylesheets/plotnik.css">
+<style>
+  .footnote {
+	font-size: initial;
+	font-style: italic;
+	margin-top: 70px;
+  }
+  .play-button {
+    margin-top: 30px;
+  }
+</style>
+
+  </head>
+  <body>
+  
+<div class="container">  
+
+<h1>Топологическая игра блэк</h1>
+
+<h2>HTML markup</h2>
+
+<a name="pyweb1"></a>
+    <!--line number 32-->
+    <p>``black.html`` (1)&nbsp;=</p>
+    <code><pre>
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+	&lt;meta charset=&quot;utf-8&quot; /&gt;
+	&lt;title&gt;Black&lt;/title&gt;
+	&lt;meta name=&quot;viewport&quot;
+		  content=&quot;width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, target-densitydpi=device-dpi&quot;/&gt;
+
+	&lt;style&gt;
+		html, body {
+			overflow: hidden;
+			width: 100%;
+			height: 100%;
+			margin:0;
+			padding:0;
+			border: 0;
+			background-color: #f8f4d0;
+		}
+
+	&lt;/style&gt;
+
+	&lt;script src=&quot;lib/utils.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;lib/EventEmitter.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;lib/input/InputHandlerBase.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;lib/input/TouchInputHandler.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;lib/input/MouseInputHandler.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;lib/input/InputHandler.js&quot;&gt;&lt;/script&gt;
+	&lt;script src=&quot;Board.js&quot;&gt;&lt;/script&gt;
+
+	&lt;script&gt;
+		var ctx;
+		var canvas;
+        var game;
+		var imageManager;
+        
+		function init() {
+
+			canvas = initFullScreenCanvas(&quot;mainCanvas&quot;);
+			ctx = canvas.getContext(&quot;2d&quot;);
+
+			game = new Board(ctx);
+            var sizeX = canvas.width-5;
+            var sizeY = Math.round(sizeX*70/50);
+            if (sizeY&gt;canvas.height) {
+                var k = sizeY/canvas.height;
+                sizeX = sizeX/k;
+                sizeY = canvas.height;
+            }
+            var dx = Math.round((canvas.width-sizeX)/2);
+            var dy = Math.round((canvas.height-sizeY)/2);
+			game.setSize(dx,dy,sizeX,sizeY);
+			
+			animateCanvas();
+
+			var input = new InputHandler(canvas);
+
+			// Picking phase
+			input.on(&quot;down&quot;, function(e) {
+			    game.selectTile(e.x, e.y);
+			});
+
+			// Movement phase
+			input.on(&quot;move&quot;, function(e) {
+			    game.dragTile(e.x, e.y);
+			});
+
+			// Release phase
+			input.on(&quot;up&quot;, function(e) {
+			    game.dropTile(e.x, e.y);
+			});
+
+		}
+
+		function animateCanvas() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+            game.drawBoard();
+            requestAnimationFrame(arguments.callee);
+		}
+		
+		function initFullScreenCanvas(canvasId) {
+			var canvas = document.getElementById(&quot;mainCanvas&quot;);
+			resizeCanvas(canvas);
+			window.addEventListener(&quot;resize&quot;, function() {
+				resizeCanvas(canvas);
+			});
+			return canvas;
+		}
+
+		function resizeCanvas(canvas) {
+			canvas.width  = document.width || document.body.clientWidth;
+			canvas.height = document.height || document.body.clientHeight;
+		}
+	&lt;/script&gt;
+&lt;/head&gt;
+&lt;body onload=&quot;init()&quot;&gt;
+&lt;div id=&quot;lobby&quot;&gt;
+	&lt;canvas id=&quot;mainCanvas&quot; width=&quot;30&quot; height=&quot;30&quot;&gt;&lt;/canvas&gt;
+&lt;/div&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></code>
+    <p>&loz; ``black.html`` (1).
+    []
+    </p>
+
+
+<h2>JavaScript code</h2>
+
+<a name="pyweb2"></a>
+    <!--line number 138-->
+    <p>``Board.js`` (2)&nbsp;=</p>
+    <code><pre>
 
 
 function Board(context) {
 	this.ctx = context;
-	this.ctx.fillStyle = "#f8f4d0"; //"white";
+	this.ctx.fillStyle = &quot;#f8f4d0&quot;; //&quot;white&quot;;
 	this.resetGame();
 }
 
@@ -60,7 +206,7 @@ _p.drawBoard = function() {
     ctx.translate(this.x, this.y);
     var boardSize = this.sizeX;
     ctx.beginPath();
-    for (var i=1; i<=Board.N; i++) {
+    for (var i=1; i&lt;=Board.N; i++) {
         ctx.moveTo(0, this.cellSize*i);
         ctx.lineTo(boardSize, this.cellSize*i);
         ctx.moveTo(this.cellSize*i, 0);
@@ -69,13 +215,13 @@ _p.drawBoard = function() {
     ctx.stroke();  
     // нарисовать текущее состояние плиток
     var k = 0;        
-    for (var i=0; i<Board.N; i++) {
-        for (var j=0; j<Board.N; j++) {
+    for (var i=0; i&lt;Board.N; i++) {
+        for (var j=0; j&lt;Board.N; j++) {
             this.drawTile(this.board[k], j,i, this.mask[k]);
             k++;
         }
     }    
-    // нарисовать плитки для drag & drop
+    // нарисовать плитки для drag &amp; drop
     var ypanel = Board.N+0.5;
     this.drawLeftTile(   this.xpanel[Board.LEFT],   ypanel);
     this.drawCenterTile( this.xpanel[Board.CENTER], ypanel);
@@ -115,13 +261,13 @@ _p.drawLeftTile = function(kx,ky,m) {
     ctx.fillRect(0,0, tileSize, tileSize);
     ctx.strokeRect(0,0, tileSize, tileSize);
     
-	ctx.lineWidth = m & 1? 5:1;
+	ctx.lineWidth = m &amp; 1? 5:1;
     ctx.beginPath();
 	ctx.moveTo(tileSize/2,0);
 	ctx.arcTo(tileSize/2,tileSize/2, tileSize,tileSize/2, tileSize/2);
     ctx.stroke();           
 
-	ctx.lineWidth = m & 2? 5:1;
+	ctx.lineWidth = m &amp; 2? 5:1;
     ctx.beginPath();
 	ctx.moveTo(tileSize/2,tileSize);
 	ctx.arcTo(tileSize/2,tileSize/2, 0,tileSize/2, tileSize/2);
@@ -138,13 +284,13 @@ _p.drawCenterTile = function(kx,ky,m) {
     ctx.fillRect(0,0, tileSize, tileSize);
     ctx.strokeRect(0,0, tileSize, tileSize);
 
-    ctx.lineWidth = m & 1? 5:1;
+    ctx.lineWidth = m &amp; 1? 5:1;
     ctx.beginPath();
 	ctx.moveTo(tileSize/2,0);
 	ctx.lineTo(tileSize/2,tileSize);
     ctx.stroke();            
 
-	ctx.lineWidth = m & 2? 5:1;
+	ctx.lineWidth = m &amp; 2? 5:1;
     ctx.beginPath();
 	ctx.moveTo(0,tileSize/2);
 	ctx.lineTo(tileSize,tileSize/2);
@@ -161,13 +307,13 @@ _p.drawRightTile = function(kx,ky,m) {
     ctx.fillRect(0,0, tileSize, tileSize);
     ctx.strokeRect(0,0, tileSize, tileSize);
 
-	ctx.lineWidth = m & 1? 5:1;
+	ctx.lineWidth = m &amp; 1? 5:1;
     ctx.beginPath();
 	ctx.moveTo(tileSize/2,0);
 	ctx.arcTo(tileSize/2,tileSize/2, 0,tileSize/2, tileSize/2);
     ctx.stroke();            
 
-	ctx.lineWidth = m & 2? 5:1;
+	ctx.lineWidth = m &amp; 2? 5:1;
     ctx.beginPath();
 	ctx.moveTo(tileSize/2,tileSize);
 	ctx.arcTo(tileSize/2,tileSize/2, tileSize,tileSize/2, tileSize/2);
@@ -199,11 +345,11 @@ _p.selectTile = function(xp, yp)  {
 _p.getPanelTile = function(nx, ny)  {
     //console.log('---- nx='+nx+', ny='+ny);
     var cy = ny-(Board.N+0.5);
-    if (cy<0 || cy>1)
+    if (cy&lt;0 || cy&gt;1)
         return -1;
-    for (var i=1; i<=3; i++) {
+    for (var i=1; i&lt;=3; i++) {
         var cx = nx-this.xpanel[i];
-        if (cx>=0 && cx<=1)
+        if (cx&gt;=0 &amp;&amp; cx&lt;=1)
             return i;
     }
     return -1;
@@ -230,12 +376,12 @@ _p.dropTile = function(xp, yp) {
     // проверить, что мы попадаем в квадрат сетки
     var nx = (xp-this.x)/this.cellSize; 
     var ny = (yp-this.y)/this.cellSize;
-    if (nx<0 || nx>=Board.N || ny<0 || ny>=Board.N)
+    if (nx&lt;0 || nx&gt;=Board.N || ny&lt;0 || ny&gt;=Board.N)
         return;
     nx = Math.floor(nx);
     ny = Math.floor(ny);  
     // проверить, что выбрана пустая клетка
-    if (this.board[nx+Board.N*ny]>0)
+    if (this.board[nx+Board.N*ny]&gt;0)
         return;
     if (this.board.length==1) {
 		if (nx+ny!=1)
@@ -270,7 +416,7 @@ _p.dropTile = function(xp, yp) {
 		// вычислить клетку следующего хода
 		var nx2 = nx+dx2;
 		var ny2 = ny+dy2;
-		if (nx2<0 || nx2>=Board.N || ny2<0 || ny2>=Board.N) {
+		if (nx2&lt;0 || nx2&gt;=Board.N || ny2&lt;0 || ny2&gt;=Board.N) {
 			this.gameOver = true;
 	        // сбросим клетку следующего хода
 	        this.next = null;
@@ -280,11 +426,11 @@ _p.dropTile = function(xp, yp) {
 		this.next = {x:nx2,y:ny2}; 
 		// если next - уже заполненная клетка? 
 		tile = this.board[nx2+Board.N*ny2];
-		if (tile>0) {
+		if (tile&gt;0) {
 			nx = nx2;
 			ny = ny2;
 		}
-	} while (tile>0);	
+	} while (tile&gt;0);	
 }
 
 _p.setMask = function(k,tile,z) {
@@ -305,3 +451,19 @@ _p.setMask = function(k,tile,z) {
 	console.log('---- k='+k+', tile='+tile+', z='+z+', m='+m);
 	this.mask[k] = m;    
 }
+</pre></code>
+    <p>&loz; ``Board.js`` (2).
+    []
+    </p>
+
+
+</div><!--.row-->
+
+
+</div><!--.container-->
+
+<script src="../javascripts/jquery-2.1.4.min.js"></script>
+<script src="../javascripts/bootstrap.min.js"></script>
+
+  </body>
+</html>

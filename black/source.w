@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Топологическая игра блэк</title>
+    <title>РўРѕРїРѕР»РѕРіРёС‡РµСЃРєР°СЏ РёРіСЂР° Р±Р»СЌРє</title>
 
 <link rel="stylesheet" type="text/css" href="../stylesheets/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="../stylesheets/plotnik.css">
@@ -24,7 +24,9 @@
   
 <div class="container">  
 
-<h1>HTML markup</h1>
+<h1>РўРѕРїРѕР»РѕРіРёС‡РµСЃРєР°СЏ РёРіСЂР° Р±Р»СЌРє</h1>
+
+<h2>HTML markup</h2>
 
 @o black.html
 @{<!DOCTYPE html>
@@ -129,10 +131,11 @@
 </html>
 @}
 
-<h1>JavaScript code</h1>
+<h2>JavaScript code</h2>
 
 @o Board.js
 @{
+
 function Board(context) {
 	this.ctx = context;
 	this.ctx.fillStyle = "#f8f4d0"; //"white";
@@ -141,54 +144,54 @@ function Board(context) {
 
 _p = Board.prototype;
 
-// количество клеток на доске
+// РєРѕР»РёС‡РµСЃС‚РІРѕ РєР»РµС‚РѕРє РЅР° РґРѕСЃРєРµ
 Board.N = 5;
 
-// коды плиток
+// РєРѕРґС‹ РїР»РёС‚РѕРє
 Board.LEFT   = 1;
 Board.CENTER = 2;
 Board.RIGHT  = 3;
 
 _p.resetGame = function() {
-	// текущее состояние доски
+	// С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РґРѕСЃРєРё
 	this.board = [Board.CENTER];
 	
-	// последняя активная клетка
+	// РїРѕСЃР»РµРґРЅСЏСЏ Р°РєС‚РёРІРЅР°СЏ РєР»РµС‚РєР°
 	this.active = {x:0,y:0};
 	
-	// маска выделенной линии для клетки
+	// РјР°СЃРєР° РІС‹РґРµР»РµРЅРЅРѕР№ Р»РёРЅРёРё РґР»СЏ РєР»РµС‚РєРё
 	this.mask = [];
 	
-    // x-координаты плиток панели управления
+    // x-РєРѕРѕСЂРґРёРЅР°С‚С‹ РїР»РёС‚РѕРє РїР°РЅРµР»Рё СѓРїСЂР°РІР»РµРЅРёСЏ
 	this.xpanel = [0, 0.5, 2, 3.5];
 	
-	// перемещаемая плитка
+	// РїРµСЂРµРјРµС‰Р°РµРјР°СЏ РїР»РёС‚РєР°
 	this.dragged = -1;
 	
-	// флаг окончания игры
+	// С„Р»Р°Рі РѕРєРѕРЅС‡Р°РЅРёСЏ РёРіСЂС‹
 	this.gameOver = false;
 }
 
 _p.setSize = function(dx,dy,sizeX,sizeY) {
-	// размер плитки
+	// СЂР°Р·РјРµСЂ РїР»РёС‚РєРё
 	this.cellSize = sizeX/Board.N;
 	
-	// смещение доски на экране
+	// СЃРјРµС‰РµРЅРёРµ РґРѕСЃРєРё РЅР° СЌРєСЂР°РЅРµ
 	this.x = dx;
 	this.y = dy;
 	
-	// размер холста
+	// СЂР°Р·РјРµСЂ С…РѕР»СЃС‚Р°
 	this.sizeX = sizeX;
 	this.sizeY = sizeY;
 }
 
 /* 
-  Функция прорисовки игрового поля. 
+  Р¤СѓРЅРєС†РёСЏ РїСЂРѕСЂРёСЃРѕРІРєРё РёРіСЂРѕРІРѕРіРѕ РїРѕР»СЏ. 
  */
 _p.drawBoard = function() {
     var ctx = this.ctx;
     ctx.strokeRect(this.x, this.y, this.sizeX, this.sizeY);
-    // нарисовать сетку на доске
+    // РЅР°СЂРёСЃРѕРІР°С‚СЊ СЃРµС‚РєСѓ РЅР° РґРѕСЃРєРµ
     ctx.save();
     ctx.translate(this.x, this.y);
     var boardSize = this.sizeX;
@@ -200,7 +203,7 @@ _p.drawBoard = function() {
         ctx.lineTo(this.cellSize*i, boardSize);
     }
     ctx.stroke();  
-    // нарисовать текущее состояние плиток
+    // РЅР°СЂРёСЃРѕРІР°С‚СЊ С‚РµРєСѓС‰РµРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїР»РёС‚РѕРє
     var k = 0;        
     for (var i=0; i<Board.N; i++) {
         for (var j=0; j<Board.N; j++) {
@@ -208,7 +211,7 @@ _p.drawBoard = function() {
             k++;
         }
     }    
-    // нарисовать плитки для drag & drop
+    // РЅР°СЂРёСЃРѕРІР°С‚СЊ РїР»РёС‚РєРё РґР»СЏ drag & drop
     var ypanel = Board.N+0.5;
     this.drawLeftTile(   this.xpanel[Board.LEFT],   ypanel);
     this.drawCenterTile( this.xpanel[Board.CENTER], ypanel);
@@ -310,8 +313,8 @@ _p.drawRightTile = function(kx,ky,m) {
 }
 
 /* 
-  Обработчик события ``down``.
-  Выбирает, какая плитка будет использоваться в следующем ходе.
+  РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ ``down``.
+  Р’С‹Р±РёСЂР°РµС‚, РєР°РєР°СЏ РїР»РёС‚РєР° Р±СѓРґРµС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊСЃСЏ РІ СЃР»РµРґСѓСЋС‰РµРј С…РѕРґРµ.
  */
 _p.selectTile = function(xp, yp)  {
 	if (this.gameOver) {
@@ -326,8 +329,8 @@ _p.selectTile = function(xp, yp)  {
 }
 
 /*
-  Определяет, на какую плитку в панели управления был клик мышкой.
-  Возвращает номер плитки: (LEFT,CENTER,RIGHT) или -1.
+  РћРїСЂРµРґРµР»СЏРµС‚, РЅР° РєР°РєСѓСЋ РїР»РёС‚РєСѓ РІ РїР°РЅРµР»Рё СѓРїСЂР°РІР»РµРЅРёСЏ Р±С‹Р» РєР»РёРє РјС‹С€РєРѕР№.
+  Р’РѕР·РІСЂР°С‰Р°РµС‚ РЅРѕРјРµСЂ РїР»РёС‚РєРё: (LEFT,CENTER,RIGHT) РёР»Рё -1.
  */
 _p.getPanelTile = function(nx, ny)  {
     //console.log('---- nx='+nx+', ny='+ny);
@@ -343,8 +346,8 @@ _p.getPanelTile = function(nx, ny)  {
 }
 
 /*
-  Обработчик события ``move``.
-  Прорисовывает промежуточное состояние перемещаемой плитки.
+  РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ ``move``.
+  РџСЂРѕСЂРёСЃРѕРІС‹РІР°РµС‚ РїСЂРѕРјРµР¶СѓС‚РѕС‡РЅРѕРµ СЃРѕСЃС‚РѕСЏРЅРёРµ РїРµСЂРµРјРµС‰Р°РµРјРѕР№ РїР»РёС‚РєРё.
  */
 _p.dragTile = function(xp, yp) {
     this.xsel = (xp-this.x)/this.cellSize; 
@@ -352,22 +355,22 @@ _p.dragTile = function(xp, yp) {
 }
 
 /*
-  Обработчик события ``up``.
-  Фиксирует перемещаемую плитку на доске, завершая тем самым ход.
+  РћР±СЂР°Р±РѕС‚С‡РёРє СЃРѕР±С‹С‚РёСЏ ``up``.
+  Р¤РёРєСЃРёСЂСѓРµС‚ РїРµСЂРµРјРµС‰Р°РµРјСѓСЋ РїР»РёС‚РєСѓ РЅР° РґРѕСЃРєРµ, Р·Р°РІРµСЂС€Р°СЏ С‚РµРј СЃР°РјС‹Рј С…РѕРґ.
  */
 _p.dropTile = function(xp, yp) {
     var tile = this.dragged;
 	if (tile==-1) 
 	    return;
     this.dragged = -1;
-    // проверить, что мы попадаем в квадрат сетки
+    // РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РјС‹ РїРѕРїР°РґР°РµРј РІ РєРІР°РґСЂР°С‚ СЃРµС‚РєРё
     var nx = (xp-this.x)/this.cellSize; 
     var ny = (yp-this.y)/this.cellSize;
     if (nx<0 || nx>=Board.N || ny<0 || ny>=Board.N)
         return;
     nx = Math.floor(nx);
     ny = Math.floor(ny);  
-    // проверить, что выбрана пустая клетка
+    // РїСЂРѕРІРµСЂРёС‚СЊ, С‡С‚Рѕ РІС‹Р±СЂР°РЅР° РїСѓСЃС‚Р°СЏ РєР»РµС‚РєР°
     if (this.board[nx+Board.N*ny]>0)
         return;
     if (this.board.length==1) {
@@ -378,15 +381,15 @@ _p.dropTile = function(xp, yp) {
 		if (nx!=this.next.x || ny!=this.next.y)
 		    return;
 	}    
-	// поместить плитку в клетку
+	// РїРѕРјРµСЃС‚РёС‚СЊ РїР»РёС‚РєСѓ РІ РєР»РµС‚РєСѓ
 	this.board[nx+Board.N*ny] = tile;
-	// Определить, на какую следующую клетку выходит кривая.
+	// РћРїСЂРµРґРµР»РёС‚СЊ, РЅР° РєР°РєСѓСЋ СЃР»РµРґСѓСЋС‰СѓСЋ РєР»РµС‚РєСѓ РІС‹С…РѕРґРёС‚ РєСЂРёРІР°СЏ.
 	do {
-		// Определим относительное смещение выставленной плитки
+		// РћРїСЂРµРґРµР»РёРј РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕРµ СЃРјРµС‰РµРЅРёРµ РІС‹СЃС‚Р°РІР»РµРЅРЅРѕР№ РїР»РёС‚РєРё
 		var dx = nx-this.active.x;
 		var dy = ny-this.active.y;
-		// Установить начальное значение следующего смещения (dx2,dy2)
-		// как для плитки CENTER.
+		// РЈСЃС‚Р°РЅРѕРІРёС‚СЊ РЅР°С‡Р°Р»СЊРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ СЃР»РµРґСѓСЋС‰РµРіРѕ СЃРјРµС‰РµРЅРёСЏ (dx2,dy2)
+		// РєР°Рє РґР»СЏ РїР»РёС‚РєРё CENTER.
 		var dx2 = dx;
 		var dy2 = dy;
 		if (tile==Board.LEFT) {
@@ -397,21 +400,21 @@ _p.dropTile = function(xp, yp) {
 			dx2 = -dy;
 			dy2 = -dx;
 		}
-		// выставить маску выделенной линии для текущей плитки
+		// РІС‹СЃС‚Р°РІРёС‚СЊ РјР°СЃРєСѓ РІС‹РґРµР»РµРЅРЅРѕР№ Р»РёРЅРёРё РґР»СЏ С‚РµРєСѓС‰РµР№ РїР»РёС‚РєРё
 		console.log('---- tile: '+tile+', dx='+dx+', dy='+dy+', dx2='+dx2+', dy2='+dy2);
 		this.setMask(nx+Board.N*ny,tile,dx+2*dx2);
-		// вычислить клетку следующего хода
+		// РІС‹С‡РёСЃР»РёС‚СЊ РєР»РµС‚РєСѓ СЃР»РµРґСѓСЋС‰РµРіРѕ С…РѕРґР°
 		var nx2 = nx+dx2;
 		var ny2 = ny+dy2;
 		if (nx2<0 || nx2>=Board.N || ny2<0 || ny2>=Board.N) {
 			this.gameOver = true;
-	        // сбросим клетку следующего хода
+	        // СЃР±СЂРѕСЃРёРј РєР»РµС‚РєСѓ СЃР»РµРґСѓСЋС‰РµРіРѕ С…РѕРґР°
 	        this.next = null;
 			return;
 		}
 		this.active = {x:nx,y:ny}; 
 		this.next = {x:nx2,y:ny2}; 
-		// если next - уже заполненная клетка? 
+		// РµСЃР»Рё next - СѓР¶Рµ Р·Р°РїРѕР»РЅРµРЅРЅР°СЏ РєР»РµС‚РєР°? 
 		tile = this.board[nx2+Board.N*ny2];
 		if (tile>0) {
 			nx = nx2;
