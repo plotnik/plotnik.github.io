@@ -7,5 +7,6 @@ cd ..
 git add --all
 git commit -m "black"
 git push -u origin master 
+cd black
 
 :exit
