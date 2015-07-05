@@ -135,7 +135,6 @@
 
 @o Board.js
 @{
-
 function Board(context) {
 	this.ctx = context;
 	this.ctx.fillStyle = "#f8f4d0"; //"white";
