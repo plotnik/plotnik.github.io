@@ -1,0 +1,15 @@
+.row { 
+	border-bottom: 1px solid #ddd; 
+	padding: 8px;
+}
+.en { color: navy; }
+.it { font-style: italic; }
+#marka {
+	text-align: center;
+	padding-top: 2em;
+}
+.prev-next { padding: 30px; }
+.prev-next-text { 
+    font-style: italic;
+    font-size: small;	
+}
