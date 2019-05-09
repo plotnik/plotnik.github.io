@@ -447,8 +447,5 @@ _p.setMask = function(k,tile,z) {
 
 </div><!--.container-->
 
-<script src="../javascripts/jquery-2.1.4.min.js"></script>
-<script src="../javascripts/bootstrap.min.js"></script>
-
   </body>
 </html>
