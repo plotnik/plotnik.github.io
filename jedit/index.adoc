@@ -8,19 +8,25 @@
 
 == Groovy
 
-link:https://docs.oracle.com/javase/tutorial/essential/environment/env.html[
-     Java Tutorial to show environment variables]
+Добавить в `.bashrc`:
 
-Добавить в `.bashrc`: +
-  `export JAVA_HOME=/home/egor/.jbang/currentjdk`
+----
+export JAVA_HOME=/home/egor/.jbang/currentjdk <1>
+----
 
-== Плагины
-
-- Sidekick
-- XML
+<1> link:https://docs.oracle.com/javase/tutorial/essential/environment/env.html[
+    Java Tutorial to show environment variables]
 
 == Asciidoctor
 
 ----
 sudo apt-get install -y asciidoctor
 ----
+
+Asciidoc mode::
+https://github.com/salchint/asciidoc4jedit
+
+== Плагины
+
+- Sidekick
+- XML
