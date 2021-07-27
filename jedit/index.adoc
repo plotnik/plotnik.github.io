@@ -1,0 +1,26 @@
+= Мои настройки для jEdit
+:toc: right
+:icons: font
+
+++++
+<link rel="stylesheet" type="text/css" href="../stylesheets/plotnik.css">
+++++
+
+== Groovy
+
+link:https://docs.oracle.com/javase/tutorial/essential/environment/env.html[
+     Java Tutorial to show environment variables]
+
+Добавить в `.bashrc`: +
+  `export JAVA_HOME=/home/egor/.jbang/currentjdk`
+
+== Плагины
+
+- Sidekick
+- XML
+
+== Asciidoctor
+
+----
+sudo apt-get install -y asciidoctor
+----
