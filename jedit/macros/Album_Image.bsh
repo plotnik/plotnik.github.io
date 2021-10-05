@@ -1,0 +1,96 @@
+/**
+ * Сконвертировать путь к картинке альбома в формат для Радио Аэростат.
+ * Пример:
+     /home/egor/Музыка/DONOVAN/Donovan - HMS Donovan/cover.jpg
+ * будет сконвертировано в:
+     image:DONOVAN/Donovan - HMS Donovan/cover.jpg[HMS Donovan,200,200,role="thumb left"]
+     
+ * Вторая возможность - добавить линк на песню из клипборда.    
+ * Пример:
+     .Morrissey - Spent The Day In Bed
+ * будет сконвертировано в:
+     .Morrissey - link:from/clipboard.html[Spent The Day In Bed]
+     
+ * Третья возможность - курсор установлен на пустой строке,
+ * а в клипборде находится ссылка на текст Аэростата,
+ * Тогда добавляем строки
+      <link/to/aerostat.html>     
+      [%hardbreaks]
+ */
+
+// путь к папке с музыкой 
+prefix = "/media/egor/AEROSTAT/Music/";
+ 
+// получить текущую строку
+textArea.goToStartOfLine(false);
+textArea.goToEndOfLine(true);
+path = textArea.getSelectedText();
+if (path != null) {
+	path = path.replace('–', '-');
+}
+
+/* Возможно 2 варианта для непустой текущей строки
+   - либо строка в редакторе начинается с папки с музыкой, 
+     и тогда будем конвертировать путь к картинке альбома,
+   - либо строка в редакторе начинается с точки, содержит минимум один дефис,
+     а в клипборде находится линк на текст альбома,
+     тогда будем добавлять линк на песню из клипборда.
+ */
+ 
+void convertPicturePath(prefix) {
+	path = path.substring(prefix.length());
+	words = path.split("/");
+	artist_album = words[words.length-2];
+	album = artist_album.substring(artist_album.indexOf('-') + 1).trim();
+	album = album.replace(',',' ');
+	
+	// отправить строку в редактор
+	textArea.setSelectedText("image:" + path + "[" + album + ",200,200,role=\"thumb left\"]");
+}
+ 
+void addLinkFromClipboard(urlPrefix) {
+	k = path.indexOf("-") + 1;
+	artist = path.substring(0, k);
+	name = path.substring(k).trim();
+	url = url.substring(urlPrefix.length());
+
+	// отправить строку в редактор
+	textArea.setSelectedText(artist + " link:" + url + "[" + name + "]");
+}
+
+// убрать название папки с музыкой
+clipboard = Registers.getRegister('$').toString();
+Log.log(Log.DEBUG, BeanShell.class, "path = " + path);
+Log.log(Log.DEBUG, BeanShell.class, "clipboard = " + clipboard);
+if (path==null) {
+	if (clipboard.endsWith(".html") || clipboard.startsWith("https://")) {
+		textArea.setSelectedText("\n<" + clipboard + ">\n\n" +
+								 "[%hardbreaks]");
+	} else {
+        Macros.message(view, "Для пустой строки\n" + 
+        	                 "в клипборде мы ожидаем\n" +
+        	                 "линк на Аэростат");
+        	return;
+    }
+} else
+if (path.startsWith(prefix)) {
+	convertPicturePath(prefix);
+} else 
+if (path.startsWith(".") && path.contains("-")) {
+	// Добавление линка на песню
+	url = clipboard;
+	String urlPrefix2 = "file://" + prefix;
+	if (url.startsWith(urlPrefix2)) { 
+	    addLinkFromClipboard(urlPrefix2);
+	} else {
+		Macros.message(view, "Линк на песню в клипборде\n" +
+			                 "должен начинаться с\n" + urlPrefix2);
+		return;
+	}
+    
+    
+} else {
+    Macros.message(view, "Строка должна начинаться с `" + prefix + "`");
+    return;
+} 
+
