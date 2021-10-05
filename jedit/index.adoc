@@ -1,10 +1,42 @@
-= Мои настройки для jEdit
+= Допиливаем Linux Mint
 :toc: right
 :icons: font
 
 ++++
 <link rel="stylesheet" type="text/css" href="../stylesheets/plotnik.css">
 ++++
+
+== jEdit
+
+Нужно установить последнюю версию jEdit 5.6 из Debian package, 
+который можно загрузить с +
+http://jedit.org/index.php?page=download +
+(потому что Linux Mint 20.1 предлагает предыдущую версию 5.5)
+
+=== Plugins
+
+- Console
+- Sidekick
+- XML
+- Highlight
+
+[cols="2,1"]
+|===
+
+| Plugin Options > Console > Compile & Run: | `asciidoctor $f`
+
+| General Options > Shortcuts > Compile Current Buffer: | `C+b`
+|===
+
+== Asciidoctor
+
+----
+sudo apt-get install -y asciidoctor
+----
+
+Asciidoc mode::
+https://github.com/salchint/asciidoc4jedit
+
 
 == Groovy
 
@@ -16,17 +48,3 @@ export JAVA_HOME=/home/egor/.jbang/currentjdk <1>
 
 <1> link:https://docs.oracle.com/javase/tutorial/essential/environment/env.html[
     Java Tutorial to show environment variables]
-
-== Asciidoctor
-
-----
-sudo apt-get install -y asciidoctor
-----
-
-Asciidoc mode::
-https://github.com/salchint/asciidoc4jedit
-
-== Плагины
-
-- Sidekick
-- XML
