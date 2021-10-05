@@ -28,6 +28,8 @@ http://jedit.org/index.php?page=download +
 | General Options > Shortcuts > Compile Current Buffer: | `C+b`
 |===
 
+git config --global credential.helper store
+
 == Asciidoctor
 
 ----
