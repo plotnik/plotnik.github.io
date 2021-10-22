@@ -3,7 +3,7 @@
 <COMMANDO>
     <UI>
         <CAPTION LABEL="Application settings">
-            <ENTRY LABEL="Script Name" VARNAME="scriptname" EVAL="buffer.getPath();" />
+            <ENTRY LABEL="Script Name" VARNAME="scriptName" EVAL="buffer.getPath();" />
             <ENTRY LABEL="Application parameters" VARNAME="args" />
         </CAPTION>
     </UI>
@@ -11,8 +11,13 @@
     <COMMANDS>
         <COMMAND SHELL="System">
         
-            buf = new StringBuffer();
-            buf.append("/usr/local/bin/rst2html.py --stylesheet=/Users/eabramovich/Documents/java/rst2html-style/style.css \"" + scriptname + "\" \"" + scriptname + ".html\"");
+            buf = new StringBuilder();
+            rst2html = "/usr/local/bin/rst2html.py";
+            rstOptions = "";
+            // rstOptions += "--stylesheet=/Users/eabramovich/Documents/java/rst2html-style/style.css";
+            outputName = scriptName.substring(0, scriptName.length()-4) + ".html";
+            
+            buf.append(rst2html + " " + rstOptions + " \"" + scriptName + "\" \"" + outputName + "\"");
 
             if(!args.equals(""))
                 buf.append(" "+args);
