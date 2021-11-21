@@ -19,9 +19,12 @@ http://jedit.org/index.php?page=download +
 - Sidekick
 - XML
 - Highlight
+- Help Server
 
 [cols="2,1"]
 |===
+
+| Global Options > View: | Always show search bar
 
 | Plugin Options > Console > Compile & Run: | `asciidoctor $f`
 
