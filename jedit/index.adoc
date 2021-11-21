@@ -1,6 +1,7 @@
 = Допиливаем Linux Mint
 :toc: right
 :icons: font
+:source-highlighter: coderay
 
 ++++
 <link rel="stylesheet" type="text/css" href="../stylesheets/plotnik.css">
@@ -34,6 +35,11 @@ http://jedit.org/index.php?page=download +
 git config --global credential.helper store
 
 image:macros/aerostat_bw.png[] link:macros/Album_Image.bsh[]
+
+=== RST
+
+Нужно добавить link:macros/rst_to_html.xml[настройку Commando].
+
 
 == Asciidoctor
 

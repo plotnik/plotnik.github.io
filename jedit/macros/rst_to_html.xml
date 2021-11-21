@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!DOCTYPE COMMANDO SYSTEM "commando.dtd">
+<COMMANDO>
+    <UI>
+        <CAPTION LABEL="Application settings">
+            <ENTRY LABEL="Script Name" VARNAME="scriptName" EVAL="buffer.getPath();" />
+            <ENTRY LABEL="Application parameters" VARNAME="args" />
+        </CAPTION>
+    </UI>
+    
+    <COMMANDS>
+        <COMMAND SHELL="System">
+        
+            buf = new StringBuilder();
+            rst2html = "/usr/local/bin/rst2html.py";
+            rstOptions = "";
+            // rstOptions += "--stylesheet=/Users/eabramovich/Documents/java/rst2html-style/style.css";
+            outputName = scriptName.substring(0, scriptName.length()-4) + ".html";
+            
+            buf.append(rst2html + " " + rstOptions + " \"" + scriptName + "\" \"" + outputName + "\"");
+
+            if(!args.equals(""))
+                buf.append(" "+args);
+            return buf.toString();
+        </COMMAND>
+    </COMMANDS>
+</COMMANDO>
