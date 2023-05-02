@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>Aerostat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="manifest" href="app.webmanifest">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/main.css" rel="stylesheet">
+  <style>
+    body {
+        background-color: #f8f4d0;
+    }
+  </style>
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.ready.then(reg => {
+        console.log(`Service Worker ready (Scope: ${reg.scope})`);
+      });
+      navigator.serviceWorker.register('./sw.js')
+        .then(function (reg) {
+          console.log(`Service Worker Registration (Scope: ${reg.scope})`);
+        })
+        .catch(function (error) {
+          console.log(`Service Worker Error (${error})`);
+        });
+    } else {
+      console.warn('Service Worker not available');
+    }
+  </script>
+</head>
+
+<body>
+
+  <div class="container">
+    <img src="icons/app_icon_512x512.png" class="img-fluid rounded-5 mx-auto d-block mt-5">
+
+    <div class="d-grid gap-2 col-6 mx-auto">
+
+      <a href="https://aerostat-music.netlify.app/aerostat.html" class="btn btn-outline-dark m-2">Aerostat</a>
+      <a href="https://aerostat-music.netlify.app/lyrics.html" class="btn btn-outline-dark m-2">Lyrics</a>
+      <a href="https://aerostatbg.ru/" class="btn btn-outline-dark m-2">Aerostat BG</a>
+    </div>
+  </div>
+
+
+  <script src="js/bootstrap.min.js"></script>
+</body>
+
+</html>
