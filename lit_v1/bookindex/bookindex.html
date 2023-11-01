@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Book Index</title>
+
+<link rel="stylesheet" type="text/css" href="../../stylesheets/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../stylesheets/plotnik.css">
+<style>
+code pre {
+	background-color: #ddd;
+}
+</style>
+
+  </head>
+  <body>
+  
+<div class="container">  
+
+  
+<h1>Book Index</h1>
+
+<p>Сборка индекса по книгам и поиск дубликатов.</p>
+    
+<a name="pyweb1"></a>
+    <!--line number 28-->
+    <p>``bookindex.groovy`` (1)&nbsp;=</p>
+    <code><pre>
+
+    <a href="#pyweb2">&rarr;<em>просканировать каталоги за все месяцы</em> (2)</a>
+</pre></code>
+    <p>&loz; ``bookindex.groovy`` (1).
+    []
+    </p>
+
+
+<p>Собрать информацию из файлов <b>books.xml</b> и <b>books.txt</b>, 
+пропуская папки <b>noBookFolders</b>.
+В xml-файлах содержатся списки уже загруженных книг,
+а в txt-файлах находятся списки книг, которые мы только собираемся загрузить.
+</p>
+
+<p>Отсортировать папки в обратном порядке, чтобы более новые папки
+индексировались первыми.</p> 
+ 
+
+    <a name="pyweb2"></a>
+    <!--line number 41-->
+    <p><em>просканировать каталоги за все месяцы</em> (2)&nbsp;=</p>
+    <code><pre>
+
+    // папки, которые мы не будем сканировать
+    noBooksFolders = ['bookindex','code']
+
+    // с какой папки начинать сканирование
+    bookHome  = '.' 
+    
+    // сюда мы соберем имена xml-файлов
+    xmlNames = []   
+
+    // сюда мы соберем имена txt-файлов
+    txtNames = []   
+
+    dirs = new File(bookHome).listFiles()
+    for (dir in dirs) {
+        if (!dir.isDirectory()) continue;
+        if (noBooksFolders.contains(dir.name)) continue;
+        
+        // xml-файл должен быть в каталоге обязательно
+        xmlName = dir.getPath()+'/books.xml'
+        xmlNames &lt;&lt; xmlName
+        
+        // а txt-файл - нет
+        txtName = dir.getPath()+'/books.txt'
+        if (new File(txtName).exists()) {
+            txtNames &lt;&lt; txtName
+        }
+    }
+    xmlNames.sort { a,b -&gt; -a.compareTo(b) }
+    txtNames.sort { a,b -&gt; -a.compareTo(b) }
+    
+    <a href="#pyweb3">&rarr;<em>проанализировать все файлы books.xml</em> (3)</a>
+    <a href="#pyweb4">&rarr;<em>проанализировать все файлы books.txt</em> (4)</a>
+
+    </pre></code>
+    <p>&loz; <em>просканировать каталоги за все месяцы</em> (2).
+      Used by <a href="#pyweb1"><em>bookindex.groovy</em>&nbsp;(1)</a>.
+    </p>
+
+
+
+    <a name="pyweb3"></a>
+    <!--line number 76-->
+    <p><em>проанализировать все файлы books.xml</em> (3)&nbsp;=</p>
+    <code><pre>
+
+    for (xmlName in xmlNames) {
+    }
+
+    </pre></code>
+    <p>&loz; <em>проанализировать все файлы books.xml</em> (3).
+      Used by <a href="#pyweb2"><em>просканировать каталоги за все месяцы</em>&nbsp;(2)</a>.
+    </p>
+
+
+<p>Файл <b>ebook.txt</b> содержит ссылки на книги, которые мы только собираемся загрузить.
+Имеется один главный файл, и возможно еще по файлу в каждом из каталогов за месяц.</p>
+
+
+    <a name="pyweb4"></a>
+    <!--line number 84-->
+    <p><em>проанализировать все файлы books.txt</em> (4)&nbsp;=</p>
+    <code><pre>
+
+    // местоположение главного файла незагруженных книг
+    ebookFile = '/home/egor/Dropbox/Public/books/bookindex/ebook.txt'
+
+    for (txtName in txtNames) {
+    }
+
+    </pre></code>
+    <p>&loz; <em>проанализировать все файлы books.txt</em> (4).
+      Used by <a href="#pyweb2"><em>просканировать каталоги за все месяцы</em>&nbsp;(2)</a>.
+    </p>
+
+
+</div><!--.container-->
+
+  </body>
+</html>
